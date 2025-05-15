@@ -8,7 +8,7 @@ async function checkPassword() {
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-  const correctHash = "f20b50bc65cf9e1b7cce3c3cf28764905ec870352529e3a70e32cf24f464ed2c";
+  const correctHash = "5c86dc9f9cdb39dd68c5f7f112406f8ce987972afab08d5605d862bbb3609cd4";
 
   if (hashHex !== correctHash) {
     document.body.innerHTML = "<h2 style='color:red; text-align:center;'>Access Denied</h2>";
