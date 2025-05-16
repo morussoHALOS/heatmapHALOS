@@ -2,8 +2,8 @@ name: Auto Update Map from Google Sheet
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # every 10 minutes
-  workflow_dispatch:
+    - cron: '*/.25 * * * *'  # Every 15 secs
+  workflow_dispatch:        # Allow manual run from GitHub UI
 
 jobs:
   update:
@@ -17,18 +17,18 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           pip install pandas numpy folium gspread oauth2client
 
-      - name: Add credentials.json
+      - name: Restore credentials.json from secret
         run: |
-          echo "${{ secrets.GS_CREDENTIALS }}" > credentials.json
+          echo "${{ secrets.GS_CREDENTIALS_BASE64 }}" | base64 -d > credentials.json
 
-      - name: Run script
+      - name: Run Python script
         run: python main.py
 
-      - name: Push updated index.html (if needed)
+      - name: Commit and push changes if needed
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
