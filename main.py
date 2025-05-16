@@ -140,7 +140,9 @@ window.onload = checkPassword;
 content = content.replace("<head>", f"<head>{security_script}", 1)
 
 trigger_button = """
-<button onclick="triggerUpdate()">Update Map Now</button>
+<button onclick="triggerUpdate()" style="position:fixed;bottom:20px;right:20px;z-index:9999;padding:10px 20px;background:#0070f3;color:#fff;border:none;border-radius:8px;cursor:pointer;">
+  🔄 Update Map Now
+</button>
 <script>
   async function triggerUpdate() {
     const res = await fetch('/api/trigger', { method: 'POST' });
@@ -149,8 +151,6 @@ trigger_button = """
   }
 </script>
 """
-
-content = content.replace("</body>", trigger_button + "\n</body>")
 
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(content)
