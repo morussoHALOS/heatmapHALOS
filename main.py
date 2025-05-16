@@ -140,21 +140,22 @@ window.onload = checkPassword;
 content = content.replace("<head>", f"<head>{security_script}", 1)
 
 trigger_html = """
-<div style="position: fixed;
-            bottom: 10px;
-            right: 10px;
-            background-color: #0070f3;
-            color: white;
-            padding: 12px 18px;
-            font-size: 14px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-            z-index: 9999;
-            cursor: pointer;
-            text-align: center;"
-     onclick="triggerUpdate()">
-  🔄 Update Map Now
-</div>
+<button onclick="triggerUpdate()" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 12px 20px;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+">
+  🔄 Update Map
+</button>
 <script>
   async function triggerUpdate() {
     const res = await fetch('/api/trigger', { method: 'POST' });
