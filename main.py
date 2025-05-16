@@ -118,22 +118,29 @@ PASSWORD_HASH = "5c86dc9f9cdb39dd68c5f7f112406f8ce987972afab08d5605d862bbb3609cd
 with open("index_raw.html", "r", encoding="utf-8") as f:
     content = f.read()
 
-security_script = f"""
+# This is just inserting the JS into HTML:
+security_script = """
 <script>
-async function checkPassword() {{
+window.onload = async function () {
+  const bot = /HubSpot|HubSpot-Webhooks|HubSpot-Crawler|bot|crawl|spider/i.test(navigator.userAgent);
+  if (!bot) {
+    await checkPassword();
+  }
+};
+
+async function checkPassword() {
   const input = prompt("Enter access code:");
   const encoder = new TextEncoder();
   const data = encoder.encode(input);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  const correctHash = "{PASSWORD_HASH}";
-  if (hashHex !== correctHash) {{
+  const correctHash = "5c86dc9f9cdb39dd68c5f7f112406f8ce987972afab08d5605d862bbb3609cd4";
+  if (hashHex !== correctHash) {
     document.body.innerHTML = "<h2 style='color:red; text-align:center;'>Access Denied</h2>";
     throw new Error("Access denied");
-  }}
-}}
-window.onload = checkPassword;
+  }
+}
 </script>
 """
 
