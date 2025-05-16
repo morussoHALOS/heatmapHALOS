@@ -2,7 +2,7 @@ name: Auto Update Map from Google Sheet
 
 on:
   schedule:
-    - cron: '*/.25 * * * *'  # Every 15 secs
+    - cron: '*/5 * * * *'  # Every 5 mins
   workflow_dispatch:        # Allow manual run from GitHub UI
 
 jobs:
