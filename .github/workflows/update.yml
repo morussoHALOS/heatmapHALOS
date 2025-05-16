@@ -1,0 +1,37 @@
+name: Auto Update Map from Google Sheet
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # every 10 minutes
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy folium gspread oauth2client
+
+      - name: Add credentials.json
+        run: |
+          echo "${{ secrets.GS_CREDENTIALS }}" > credentials.json
+
+      - name: Run script
+        run: python main.py
+
+      - name: Push updated index.html (if needed)
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add index.html last_sheet_hash.txt
+          git commit -m "Auto update from GitHub Action" || echo "No changes to commit"
+          git push
