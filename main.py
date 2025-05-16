@@ -1,3 +1,4 @@
+import os                      # ✅ must come first
 import pandas as pd
 import folium
 import numpy as np
@@ -5,7 +6,6 @@ import subprocess
 import gspread
 import hashlib
 import json
-import os
 from oauth2client.service_account import ServiceAccountCredentials
 
 # === Step 1: Load Google Sheet ===
