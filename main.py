@@ -5,6 +5,7 @@ import subprocess
 import gspread
 import hashlib
 import json
+import os
 from oauth2client.service_account import ServiceAccountCredentials
 
 # === Step 1: Load Google Sheet ===
