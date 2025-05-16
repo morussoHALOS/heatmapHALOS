@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${process.env.GH_ACTION_TOKEN}`,
+        Authorization: `Bearer ${process.env.GH_PAT}`,
         Accept: 'application/vnd.github+json',
         'Content-Type': 'application/json',
       },
