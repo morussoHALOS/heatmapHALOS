@@ -139,6 +139,21 @@ window.onload = checkPassword;
 
 content = content.replace("<head>", f"<head>{security_script}", 1)
 
+trigger_button = """
+<button onclick="triggerUpdate()">Update Map Now</button>
+<script>
+  async function triggerUpdate() {
+    const res = await fetch('/api/trigger', { method: 'POST' });
+    const json = await res.json();
+    alert(json.message || json.error);
+  }
+</script>
+"""
+
+# Append it to the end of <body> in the HTML
+content = content.replace("</body>", trigger_button + "\n</body>")
+
+
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(content)
 
