@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   );
 
   if (result.ok) {
-    res.status(200).json({ message: '✅ GitHub Action triggered!' });
+    res.status(200).json({ message: 'Map Updating! Refresh in ~25 seconds!' });
   } else {
     const errorText = await result.text();
     res.status(result.status).json({ error: errorText });
