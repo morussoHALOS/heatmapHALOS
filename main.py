@@ -39,6 +39,8 @@ with open(HASH_FILE, "w") as f:
 
 # === Now continue converting data ===
 addresses_df = pd.DataFrame(data)
+# Exclude notes/comments columns from logic
+filtered_df = addresses_df.drop(columns=["#", "Notes"], errors="ignore")
 
 # === Step 2: Sort and prep ===
 addresses_df = addresses_df.sort_values(by='ARR Total')
@@ -57,7 +59,7 @@ region_data = {r: {'count': 0, 'total': 0} for r in ['West', 'Central', 'East']}
 
 for _, row in addresses_df.iterrows():
     arr_total = row['ARR Total']
-    lat, lon = row['latitude'], row['longitude']
+    lat, lon = row['Latitude'], row['Longitude']
     color = get_marker_color(arr_total)
     arr_color_data[color]['count'] += 1
     arr_color_data[color]['total'] += arr_total
@@ -74,7 +76,7 @@ for _, row in addresses_df.iterrows():
         fill=True,
         fill_color=color,
         fill_opacity=0.6,
-        popup=f"<b>{row['Name']}</b><br>{row['address']}<br>ARR: ${arr_total:,.2f}"
+        popup=f"<b>{row['Name']}</b><br>{row['Address']}<br>ARR: ${arr_total:,.2f}"
     ).add_to(mymap)
 
 # === Step 3: Legends ===
