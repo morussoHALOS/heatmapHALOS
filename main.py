@@ -38,10 +38,18 @@ with open(HASH_FILE, "w") as f:
 # === Convert sheet data ===
 addresses_df = pd.DataFrame(data)
 addresses_df = addresses_df.drop(columns=["#", "Notes"], errors="ignore")
+
+# Convert numeric columns safely
 addresses_df['ARR Total'] = pd.to_numeric(addresses_df['ARR Total'], errors='coerce')
 addresses_df['Latitude'] = pd.to_numeric(addresses_df['Latitude'], errors='coerce')
 addresses_df['Longitude'] = pd.to_numeric(addresses_df['Longitude'], errors='coerce')
+
+# ❗ Drop rows missing location or ARR
+addresses_df = addresses_df.dropna(subset=['Latitude', 'Longitude', 'ARR Total'])
+
+# Sort after cleaning
 addresses_df = addresses_df.sort_values(by='ARR Total')
+
 
 map_center = [37.0902, -95.7129]
 mymap = folium.Map(location=map_center, zoom_start=5, min_zoom=5, max_zoom=8)
