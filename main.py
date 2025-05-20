@@ -39,6 +39,8 @@ with open(HASH_FILE, "w") as f:
 addresses_df = pd.DataFrame(data)
 addresses_df = addresses_df.drop(columns=["#", "Notes"], errors="ignore")
 addresses_df['ARR Total'] = pd.to_numeric(addresses_df['ARR Total'], errors='coerce')
+addresses_df['Latitude'] = pd.to_numeric(addresses_df['Latitude'], errors='coerce')
+addresses_df['Longitude'] = pd.to_numeric(addresses_df['Longitude'], errors='coerce')
 addresses_df = addresses_df.sort_values(by='ARR Total')
 
 map_center = [37.0902, -95.7129]
