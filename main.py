@@ -122,24 +122,24 @@ security_script = """
 <script>
 window.onload = async function () {
   const bot = /HubSpot|HubSpot-Webhooks|HubSpot-Crawler|bot|crawl|spider/i.test(navigator.userAgent);
-  if (!bot) {
-    await checkPassword();
-  }
-};
+  if (bot) return; // allow bots
 
-async function checkPassword() {
-  const input = prompt("Enter access code:");
-  const encoder = new TextEncoder();
-  const data = encoder.encode(input);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  const correctHash = "5c86dc9f9cdb39dd68c5f7f112406f8ce987972afab08d5605d862bbb3609cd4";
-  if (hashHex !== correctHash) {
-    document.body.innerHTML = "<h2 style='color:red; text-align:center;'>Access Denied</h2>";
-    throw new Error("Access denied");
+  const urlParams = new URLSearchParams(window.location.search);
+  const access = urlParams.get("access");
+  const validHash = "5c86dc9f9cdb39dd68c5f7f112406f8ce987972afab08d5605d862bbb3609cd4"; // SHA-256 of 'halos2025'
+
+  if (access) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(access);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    if (hashHex === validHash) return; // ✅ valid
   }
-}
+
+  // ❌ block access
+  document.body.innerHTML = "<h2 style='color:red; text-align:center;'>Access Denied</h2>";
+};
 </script>
 """
 
