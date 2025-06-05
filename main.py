@@ -52,7 +52,7 @@ addresses_df = addresses_df.sort_values(by='ARR Total')
 
 
 map_center = [37.0902, -95.7129]
-mymap = folium.Map(location=map_center, zoom_start=5, min_zoom=5, max_zoom=8)
+mymap = folium.Map(location=map_center, zoom_start=5, min_zoom=5, max_zoom=10)
 
 def get_marker_color(arr):
     if arr <= 10000: return 'green'
